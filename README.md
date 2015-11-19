@@ -188,6 +188,7 @@ Finally, lets update our createElement method by passing in our Thumbnail compon
 ```javascript
 var element = React.createElement(Thumbnail, options);
 ```
+Now, what if we wanted a list of thumbnails?
 
 ## Thumbnail List
 
