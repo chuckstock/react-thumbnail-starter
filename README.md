@@ -111,26 +111,13 @@ So here is we make this component dynamic:
   1. React components use properties on their JSX elements to pass data through to each component.  Components can then call that data using 'this.props'.  We'll see more of this in our next component.
 
 
-## Thumbnail
-Now lets create a single thumbnail component using the bootstrap thumbnail html as our foundation.  Again, first lets start with our basic boilerplate; however, this time we will also require in our Badge component that we just created so that we can use it in our thumbnail componenet;
+## Step Two
+
+#### Thumbnail
+Now lets create a single thumbnail component using the bootstrap thumbnail html as our foundation.
 
 ```javascript
-var React = require('react');
-var Badge = require('./badge');
-
-module.exports = React.createClass({
-  render: function() {
-  }
-});
-```
-
-Now we'll add the basic bootstrap outline for creating a thumbnail component.
-
-```javascript
-var React = require('react');
-var Badge = require('./badge');
-
-module.exports = React.createClass({
+var Thumbnail = React.createClass({
   render: function() {
     return <div class="col-sm-6 col-md-4">
       <div class="thumbnail">
@@ -146,13 +133,10 @@ module.exports = React.createClass({
 });
 ```
 
-Similar to the Badge component, lets first go through and add our {this.props} to items we want to by dynamic.
+Similar to the Badge component, lets first go through and add our {this.props} to items we want to be dynamic.
 
 ```javascript
-var React = require('react');
-var Badge = require('./badge');
-
-module.exports = React.createClass({
+var Thumbnail = React.createClass({
   render: function() {
     return <div className="col-sm-6 col-md-4">
       <div className="thumbnail">
@@ -171,10 +155,7 @@ module.exports = React.createClass({
 Now lets replace the button with our badge component that we just created.  Be sure to analyze how the Badge component is added.  How are we passing data through the Badge component?
 
 ```javascript
-var React = require('react');
-var Badge = require('./badge');
-
-module.exports = React.createClass({
+var Thumbnail = React.createClass({
   render: function() {
     return <div className="col-sm-6 col-md-4">
       <div className="thumbnail">
@@ -190,6 +171,22 @@ module.exports = React.createClass({
     </div>
   }
 });
+```
+
+Next let's create a global variable called options that we will pass into our create element function so we can pass in data into our component.
+```javascript
+var options = {
+  title: 'See tutorials ',
+  number: 32,
+  header: 'Learn React',
+  description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+  imageUrl: 'http://formatjs.io/img/react.svg'
+};
+```
+
+Finally, lets update our createElement method by passing in our Thumbnail component and the options variable we just made.  And after our gulp file recompiles we should see a nice thumbNail with our badge component nested inside.
+```javascript
+var element = React.createElement(Thumbnail, options);
 ```
 
 ## Thumbnail List
