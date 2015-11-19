@@ -1,54 +1,13 @@
 ## Background
-In this tutorial, we are going to refactor the bootstrap thumbnail component into React components.  Here is a link the completed [github repo](https://github.com/blackstc/react-thumbnail-homework).  I would recommend doing the tutorial first and visiting this at the end if you have any problems.
+In this tutorial, we are going to refactor the bootstrap thumbnail component into React components.  Here is a link the completed [github repo](https://github.com/blackstc/react-thumbnail-homework).  I would recommend doing the tutorial first and visiting this at the end if you have any problems.  
 
 ## Wire Frame
 Here is a basic picture of what we want our end result to be.  We are going to make two thumbnails that show the type of tutorial, an image, and a button with a number of tutorials for that related subject.  From the picture, can you guess how many React components there are? ![wireframe](./img/overview.png)
 
 ## Setup
-First, you may want to install a React package for your text-editor before we get started.  This will help with syntax highlighting when we start writing JSX files.
+First, you may want to install a React package for your text-editor before we get started.  This will help with syntax highlighting when we start writing JSX files.  Second, you can fork and clone this repository.  I've created a new branch for each section as we move along the course if you get lost.
 
-
-Folder structure:
-
-```sh
-├── gulpfile.js
-├── index.html
-├── main.js
-├── package.json
-└── src
-    ├── app.jsx
-    ├── badge.jsx
-    ├── thumbnail-list.jsx
-    └── thumbnail.jsx
-```
-
-### Package.json
-
-```json
-{
-  "name": "thumbnail-gulp",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "browserify": "^12.0.1",
-    "gulp": "^3.9.0",
-    "gulp-concat": "^2.6.0",
-    "gulp-react": "^3.1.0",
-    "gulp-util": "^3.0.7",
-    "react": "^0.13.3",
-    "reactify": "^1.1.1",
-    "vinyl-source-stream": "^1.1.0",
-    "watchify": "^3.6.0"
-  }
-}
-```
-After you have added this code to your package.json, run:
+After you have cloned this repository, run:
 
 ```sh
 $ npm i
@@ -57,62 +16,12 @@ $ npm i
 ### Gulp
 React components are written in JSX.  JSX gives you the ability to write HTML within javascript files.  This is the life-blood of building React components, however, the JSX files need to be compiled into javascript. The easiest way to do this is with the gulp build process.  This gulp file will not only compile from JSX to javascript, but will order the files properly and send all the code to a single file, main.js.
 
-```javascript
-var gulp = require('gulp');
-var gutil = require('gulp-util');
-var source = require('vinyl-source-stream');
-var browserify = require('browserify');
-var watchify = require('watchify');
-var reactify = require('reactify');
-
-gulp.task('default', function() {
-  var bundler = watchify(browserify({
-    entries: ['./src/app.jsx'],
-    transform: [reactify],
-    extensions: ['.jsx'],
-    debug: true,
-    cache: {},
-    packageCache: {},
-    fullPaths: true
-  }));
-
-  function build(file) {
-    if (file) gutil.log('Recompiling ' + file);
-    return bundler
-      .bundle()
-      .on('error', gutil.log.bind(gutil, 'Browserify Error'))
-      .pipe(source('main.js'))
-      .pipe(gulp.dest('./'));
-  }
-  build();
-  bundler.on('update', build);
-});
-
-```
-
 Run gulp from the console to start your compiler.  Leave the gulp file running and it will automatically update with your main.js whenever changes are made.
 
 
-### Index
+The gulp file will also run a browser sync to that it will automatically update the browswer whenever we make changes.
 
-```html
-<head>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
-</head>
-<body>
-  <div class="container">
-    <div class="row">
-      <div class="target">
-      </div>
-    </div>
-  </div>
-</body>
-
-<script src="./main.js"></script>
-```
-
-### App.jsx
+### Step One
 The app jsx is the the platform to launch your JSX files.  For now, we will use it to attach elements to the DOM and as a place to old our sample data.
 
 First we need to require in React and additional components that we want to render. Secondly we will require a thumbnail-list, this is a component we will build later.
