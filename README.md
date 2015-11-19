@@ -190,15 +190,35 @@ var element = React.createElement(Thumbnail, options);
 ```
 Now, what if we wanted a list of thumbnails?
 
-## Thumbnail List
+## Step Three
 
-This final part will definitely be the most complicated component we have made thus far, but I will try to explain as best as possible, however, this will probably just take some time and repetition to fully understand what is happening.
+#### Thumbnail list
 
+This final part will definitely be the most complicated component we have made thus far, but I will try to explain as best as possible, however, this will probably just take some time and repetition to fully understand what is happening.  First though, lets update our options to incorporate data for our second thumbnail.
 ```javascript
-var React = require('React');
-var Thumbnail = require('./thumbnail');
+var options = {
+  thumbnailData: [
+    {
+      title: "See tutorials ",
+      number: 32,
+      header: 'Learn React',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+      imageUrl: 'http://formatjs.io/img/react.svg'
+    },
+    {
+      title: "See tutorials ",
+      number: 12,
+      header: 'Learn Gulp',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+      imageUrl: 'https://raw.githubusercontent.com/gulpjs/artwork/master/gulp-2x.png'
+    }
+  ]
+};
+```
 
-module.exports = React.createClass({
+Next, let's add the following component to our app.jsx:
+```javascript
+var ThumbnailList = React.createClass({
   render: function() {
     var list = this.props.thumbnailData.map(function(thumbnailProps) {
       return <Thumbnail {...thumbnailProps} />
@@ -210,42 +230,24 @@ module.exports = React.createClass({
   }
 });
 ```
-
 Lets talk about what is weird here:
 
 1. var list
-  1. First, we'll see we are using some functional programming by calling map on 'thumbnailData'.  You'll notice that we pass thumbNail data into this component from App.jsx
-  1. Second, we're using map because we are passing in data for two separate thumbnails, remember our wireframe from above? In this map function we want to return two separate thumbnail components.
-  1. Third, within the Thumbnail component we see '{...thumbnailProps}', this is called spread attributes, and the '...' is called  a spread operator
+  1. First, we'll see we are using some functional programming by calling map on 'thumbnailData'.  You'll notice that we pass thumbNail data into this component from our options.
+  1. Second, within the Thumbnail component we see '{...thumbnailProps}', this is called spread attributes, and the '...' is called  a spread operator
     1. the spread operator actually exists in ES6 on arrays, and JSX is trying to take advantage of the syntax
     1. but this spread attribute  is used to pass through all the data in a more concise matter instead of passing them through, one attribute at a time.
 1. Finally the return at the bottom is simply returning the list of Thumbnail components we just created in a list.
+
+Now let's update our element:
+```javascript
+var element = React.createElement(ThumbnailList, options);
+React.render(element, document.querySelector('.container'));
+```
 
 ## Conclusion
 So if we run:
 ```sh
 $ gulp
 ```
-And now we open our index.html, we should see our two thumbnail components on the page.
-
-Next let's add the sample data that we will use for our thumbnails.
-```javascript
-var options = {
-  thumbnailData: [
-    {
-      title: "See tutorials",
-      number: 32,
-      header: 'Learn React',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      imageUrl: 'http://formatjs.io/img/react.svg'
-    },
-    {
-      title: "See tutorials",
-      number: 12,
-      header: 'Learn Gulp',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      imageUrl: 'https://raw.githubusercontent.com/gulpjs/artwork/master/gulp-2x.png'
-    }
-  ]
-};
-```
+When our page opens we should see our two thumbnail components on the page.  Thank you for reading my blog, and I hope this tutorial has been helpful.  Please feel free to reach out for any help or feedback.

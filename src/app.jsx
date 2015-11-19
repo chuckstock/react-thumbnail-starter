@@ -38,12 +38,23 @@ var ThumbnailList = React.createClass({
 });
 
 var options = {
-  title: 'See tutorials ',
-  number: 32,
-  header: 'Learn React',
-  description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-  imageUrl: 'http://formatjs.io/img/react.svg'
+  thumbnailData: [
+    {
+      title: "See tutorials ",
+      number: 32,
+      header: 'Learn React',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+      imageUrl: 'http://formatjs.io/img/react.svg'
+    },
+    {
+      title: "See tutorials ",
+      number: 12,
+      header: 'Learn Gulp',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+      imageUrl: 'https://raw.githubusercontent.com/gulpjs/artwork/master/gulp-2x.png'
+    }
+  ]
 };
 
-var element = React.createElement(Thumbnail, options);
+var element = React.createElement(ThumbnailList, options);
 React.render(element, document.querySelector('.container'));
