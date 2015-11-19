@@ -1,12 +1,12 @@
 var React = require('react');
 
-var Hello = React.createClass({
-  render: function() {
-    return <h1 className="red">
-      Hello!
-    </h1>
-  }
+var Badge = React.createClass({
+	render: function() {
+		return <button className="btn btn-primary" type="button">
+			{this.props.title}<span className="badge">{this.props.number}</span>
+		</button>
+	}
 });
 
-var element = React.createElement(Hello, {});
+var element = React.createElement(Badge, {title: 'See Tutorials ', number: 32});
 React.render(element, document.querySelector('.container'));

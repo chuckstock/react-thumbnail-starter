@@ -13,7 +13,7 @@ After you have cloned this repository, run:
 $ npm i
 ```
 
-### Gulp
+## Gulp
 React components are written in JSX.  JSX gives you the ability to write HTML within javascript files.  This is the life-blood of building React components, however, the JSX files need to be compiled into javascript. The easiest way to do this is with the gulp build process.  This gulp file will not only compile from JSX to javascript, but will order the files properly and send all the code to a single file, main.js.
 
 Run gulp from the console to start your compiler.  Leave the gulp file running and it will automatically update with your main.js whenever changes are made.
@@ -21,77 +21,90 @@ Run gulp from the console to start your compiler.  Leave the gulp file running a
 
 The gulp file will also run a browser sync to that it will automatically update the browswer whenever we make changes.
 
-### Step One
-The app jsx is the the platform to launch your JSX files.  For now, we will use it to attach elements to the DOM and as a place to old our sample data.
-
-First we need to require in React and additional components that we want to render. Secondly we will require a thumbnail-list, this is a component we will build later.
-```javascript
-var React = require('react');
-var ThumbnailList = require('./thumbnail-list');
+## Step One
+To get started if we run the command:
+```sh
+$ gulp
 ```
 
-Next let's add the sample data that we will use for our thumbnails.
+We see the word "Hello!" So let's dive into the code and see where this comes from.
+
+#### App.jsx
+Normally, app.jsx is the the platform to launch your JSX files.  For now, we will put all over our components and code into the app.jsx for simplicity.  We will refactor each component into seperate files at the end as a stretch goal.
+
+So, you'll notice the first thing in the app.jsx is to require in React.  We need to add react so that we have access to all of its methods and functionality. The next thing we see is:
 ```javascript
-var options = {
-  thumbnailData: [
-    {
-      title: "See tutorials",
-      number: 32,
-      header: 'Learn React',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      imageUrl: 'http://formatjs.io/img/react.svg'
-    },
-    {
-      title: "See tutorials",
-      number: 12,
-      header: 'Learn Gulp',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      imageUrl: 'https://raw.githubusercontent.com/gulpjs/artwork/master/gulp-2x.png'
-    }
-  ]
-};
-```
-
-Finally, we will add some react to create our components and append them to the DOM.
-```javascript
-// React, please render this class
-var element = React.createElement(ThumbnailList, options);
-
-// React, after you render this class, please place it in my body tag
-React.render(element, document.querySelector('.target'));
-```
-
-### Badge
-
-When looking at our thumbnails the first component we are going to make is the Badge.  The badge will act as a button on our thumbnail that will have text and show the number of tutorials for that specific subject.  So lets get to it...
-
-First, we will setup, what will be our basic boilerplate for starting every component in React.
-
-```javascript
-var React = require('react');
-
-module.exports = React.createClass({
+var Hello = React.createClass({
   render: function() {
+    return <h1 className="red">
+      Hello!
+    </h1>
   }
 });
 ```
-You will notice that the entire component will be wrapped in a 'module.exports'.  This will make it much easier to import this file later, and then simply paste the component where it is needed.  Don't worry if this is confusing, we will go into more detail about this throughout the tutorial.
 
-Next, lets add our code to the render function.
+This is our first look at at React component. First, it is convention to give your components a capitalized variable name.  Second, we'll set our new variable equal too the method 'createClass' called on React.  'createClass' has A LOT of built in methods to help build React components, however, the core function of 'createClass' is the 'render' function.  The 'render' function is originally called twice, once when the DOM is opened and again when the DOM is fully loaded.  It can be called additional times for when new data is passed into the component, however, that is beyond the scope of this tutorial.  Inside, the render method we'll see some JSX.  Here we see some standard HTML except for one thing, 'className'.  'className' acts as the exact same thing as 'class' in standard HTML, but is used for compiling purposes.
+
+The next bit of code we see is:
+```javascript
+// React, please render this class
+var element = React.createElement(Hello, {});
+```
+Here, is where we are creating a React element.  When we create the element we pass in the name of the component we want to create, and the data, if any, that we want to pass into the component.
+
+
+Finally, we see the react render method.  Here we are passing in the element we just created and the second parameter is where on the DOM we want to attach our new element.  If you noticed we have an empty div in our index.html with the class of 'container' and that is where we want to attach our new element.
+```javascript
+// React, after you render this class, please place it in my body tag
+React.render(element, document.querySelector('.container'));
+```
+
+#### Badge
+
+Now let's try making our own component.  When looking at our thumbnails the first component we are going to make is the Badge.  The badge will act as a button on our thumbnail that will have text and show the number of tutorials for that specific subject.  So lets get to it...
+
+First, lets get rid of the JSX inside the render function at in our app.jsx and change the name of the component from Hello to Badge.  So the code should appear like this.
+
 ```javascript
 var React = require('react');
 
-module.exports = React.createClass({
+var Badge = React.createClass({
+  render: function() {
+    return
+  }
+});
+
+var element = React.createElement(Badge, {});
+React.render(element, document.querySelector('.container'));
+```
+
+Next, lets add our code to the render function, using the bootstrap badge component as a template
+```javascript
+var Badge = React.createClass({
   render: function() {
     return <button className="btn btn-primary" type="button">
-    {this.props.title} <span className="badge">{this.props.number}</span>
+    	See Tutorials <span className="badge">32</span>
     </button>
   }
 });
 ```
-Now, we have seen our first example of JSX and passing through information into a component.  Looking at this completed component, three things stand out:
+Now we should have our badge button rendered on the DOM, but you have noticed, what if we want this button to be dynamic and not hard coded... Lets refactor the badge to take parameters and pass the data through here:
+```javascript
+var element = React.createElement(Badge, {title: 'See Tutorials ', number: 32});
+```
 
-1. className
+And our new badge component will look like:
+```javascript
+var Badge = React.createClass({
+	render: function() {
+		return <button className="btn btn-primary" type="button">
+			{this.props.title}<span className="badge">{this.props.number}</span>
+		</button>
+	}
+});
+```
+
+So here is we make this component dynamic:
 1. {this.props.title}
 1. {this.props.number}
   1. When writing JSX, we call React methods by wrapping them in {}
@@ -216,3 +229,25 @@ So if we run:
 $ gulp
 ```
 And now we open our index.html, we should see our two thumbnail components on the page.
+
+Next let's add the sample data that we will use for our thumbnails.
+```javascript
+var options = {
+  thumbnailData: [
+    {
+      title: "See tutorials",
+      number: 32,
+      header: 'Learn React',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+      imageUrl: 'http://formatjs.io/img/react.svg'
+    },
+    {
+      title: "See tutorials",
+      number: 12,
+      header: 'Learn Gulp',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+      imageUrl: 'https://raw.githubusercontent.com/gulpjs/artwork/master/gulp-2x.png'
+    }
+  ]
+};
+```
