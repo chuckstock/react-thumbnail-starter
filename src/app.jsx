@@ -8,5 +8,8 @@ var Hello = React.createClass({
   }
 });
 
+// React, please render this class
 var element = React.createElement(Hello, {});
+
+// React, after you render this class, please place it in my body tag
 React.render(element, document.querySelector('.container'));
